@@ -1,7 +1,6 @@
 import React from 'react';
 import Nav from './nav';
-import { TextField, TablePagination, Button } from '@mui/material';
-import { useTable } from 'react-table';
+import Section3 from './Section3';
 
 function App() {
     return (
@@ -41,111 +40,6 @@ function Section2() {
     </div>;
 }
 
-function Section3() {
-
-
-    const columns = [
-        {
-            id: 'title',  // Add a unique ID for this column
-            name: 'Title',
-            selector: row => row.title,
-        },
-        {
-            id: 'year',   // Add a unique ID for this column
-            name: 'Year',
-            selector: row => row.year,
-        },
-        {
-            id: 'description',  // Add a unique ID for this column
-            name: 'Description',
-            selector: row => row.description,
-        },
-        {
-            id: 'languages',  // Add a unique ID for this column
-            name: 'Languages and Frameworks',
-            selector: row => row.languages,
-        },
-        {
-            id: 'type',   // Add a unique ID for this column
-            name: 'Type',
-            selector: row => row.type,
-        },
-    ];
-    const data = [
-        {
-            title: 'Xen - AI',
-            year: '2019',
-            description: 'A Multi-Modal Voice Assistant with the ability to learn and answer to questions, and do tasks like opening applications, websites, and do keybaord shortcuts, all through voice commands and AI',
-            languages: 'TensorFlow, DeepSpeech, Python',
-            type: 'Desktop',
-
-        },
-        {
-            title: 'Ghostbusters',
-            year: '1984',
-            description: 'A Multi-Modal Voice Assistant with the ability to learn and answer to questions, and do tasks like opening applications, websites, and do keybaord shortcuts, all through voice commands and AI',
-            languages: 'TensorFlow, DeepSpeech, Python',
-            type: 'Desktop',
-        },
-    ]
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = useTable({ columns, data });
-
-    return (
-        <div className="section3">
-            <TextField label="Search" variant="outlined" fullWidth margin="normal" />
-
-            <table {...getTableProps()} style={{ width: '100%' }}>
-                <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => (
-                                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={data.length || 0}
-                page={0}
-                rowsPerPage={5}
-                onPageChange={() => {
-                    // Handle page change logic here
-                }}
-                onRowsPerPageChange={() => {
-                    // Handle rows per page change logic here
-                }}
-            />
-
-            <Button variant="contained" color="primary" onClick={() => {
-                // Handle Load More logic here
-            }}>
-                Load More
-            </Button>
-        </div>
-    );
-}
 
 
 export default App;

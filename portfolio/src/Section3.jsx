@@ -1,17 +1,42 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper } from '@mui/material';
 
-const fetchData = async () => {
-    // Simulate fetching data from an API
-    const response = await fetch('https://api.example.com/data');
-    const data = await response.json();
-    return data;
-};
-
 function Section3() {
-    const { data, isLoading, isError } = useQuery('data', fetchData);
+    const data = [
+        {
+            id: 1,
+            title: 'Xen AI',
+            year: '2019',
+            description: 'A Multi-Modal Voice Assistant with the ability to learn and answer to questions, and do tasks like opening applications, websites, and do keybaord shortcuts, all through voice commands and AI',
+            languages: 'TensorFlow, DeepSpeech, Python',
 
+        },
+        {
+            id: 2,
+            title: 'AlertBlast Mass Notification',
+            year: '2021',
+            description: 'AlertBlast allows you to engage in real-time, two-way communications with any size audience. With a simple interface that enables multiple channels — including SMS, voice, email, desktop, in-app notifications, paging, wallboards, IP phones, and more',
+            languages: 'Python, Flask, React.js, html/css/js, etc.',
+
+        },
+        {
+            id: 1,
+            title: 'Xen AI',
+            year: '2019',
+            description: 'A Multi-Modal Voice Assistant with the ability to learn and answer to questions, and do tasks like opening applications, websites, and do keybaord shortcuts, all through voice commands and AI',
+            languages: 'TensorFlow, DeepSpeech, Python',
+
+        },
+        {
+            id: 1,
+            title: 'Xen AI',
+            year: '2019',
+            description: 'A Multi-Modal Voice Assistant with the ability to learn and answer to questions, and do tasks like opening applications, websites, and do keybaord shortcuts, all through voice commands and AI',
+            languages: 'TensorFlow, DeepSpeech, Python',
+
+        },
+    ]
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [searchTerm, setSearchTerm] = React.useState('');
@@ -43,9 +68,6 @@ function Section3() {
 
     const paginatedData = sortedData?.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
-    if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error loading data</p>;
-
     return (
         <div className="section3">
             <TextField
@@ -60,12 +82,25 @@ function Section3() {
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
-                        {/* Add TableHead cells based on your data */}
+                        <TableRow>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Year</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Technology</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
                         {paginatedData?.map((row) => (
                             <TableRow key={row.id}>
-                                {/* Add TableCell components based on your data */}
+                                <TableCell>
+                                    {/* Apply styles to force a single line for the title */}
+                                    <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {row.title}
+                                    </div>
+                                </TableCell>
+                                <TableCell>{row.year}</TableCell>
+                                <TableCell>{row.description}</TableCell>
+                                <TableCell>{row.languages}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -85,4 +120,15 @@ function Section3() {
     );
 }
 
-export default Section3;
+// Wrap your root component with QueryClientProvider
+const App = () => {
+    const queryClient = new QueryClient();
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Section3 />
+        </QueryClientProvider>
+    );
+};
+
+export default App;
